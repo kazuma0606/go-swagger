@@ -22,6 +22,8 @@ import (
 // @BasePath /api/v1
 // @schemes http
 func main() {
+	log.Println("😎 Fiber アプリを起動中...")
+
 	// 設定の読み込み
 	cfg := config.Load()
 
@@ -53,6 +55,7 @@ func main() {
 	routes.SetupUserRoutes(api)
 
 	// サーバー起動
+	log.Printf("アプリケーション名: %s", cfg.AppName)
 	log.Printf("サーバーを起動しています... http://localhost%s", cfg.ServerAddress)
 	log.Printf("Swagger UI: http://localhost%s/swagger/index.html", cfg.ServerAddress)
 
