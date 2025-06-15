@@ -1,0 +1,170 @@
+basePath: /api/v1
+definitions:
+  main.ErrorResponse:
+    description: エラーレスポンス
+    properties:
+      error:
+        example: ユーザーが見つかりません
+        type: string
+    type: object
+  main.User:
+    description: ユーザー情報
+    properties:
+      age:
+        example: 25
+        type: integer
+      email:
+        example: tanaka@example.com
+        type: string
+      id:
+        example: 1
+        type: integer
+      name:
+        example: 田中太郎
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact: {}
+  description: Go FiberでのCRUD操作のサンプルAPI
+  title: Fiber CRUD API
+  version: "1.0"
+paths:
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: 登録されている全てのユーザーを取得
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.User'
+            type: array
+      summary: 全ユーザー取得
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: 新しいユーザーを作成
+      parameters:
+      - description: ユーザー情報（IDは自動生成されるため不要）
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/main.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/main.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: ユーザー作成
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 指定されたIDのユーザーを削除
+      parameters:
+      - description: ユーザーID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: ユーザー削除
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: 指定されたIDのユーザー詳細を取得
+      parameters:
+      - description: ユーザーID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: ユーザー詳細取得
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: 指定されたIDのユーザー情報を更新
+      parameters:
+      - description: ユーザーID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 更新するユーザー情報
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/main.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.ErrorResponse'
+      summary: ユーザー更新
+      tags:
+      - users
+schemes:
+- http
+swagger: "2.0"

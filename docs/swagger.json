@@ -1,0 +1,254 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Go FiberでのCRUD操作のサンプルAPI",
+        "title": "Fiber CRUD API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:3000",
+    "basePath": "/api/v1",
+    "paths": {
+        "/users": {
+            "get": {
+                "description": "登録されている全てのユーザーを取得",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "全ユーザー取得",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/main.User"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "新しいユーザーを作成",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "ユーザー作成",
+                "parameters": [
+                    {
+                        "description": "ユーザー情報（IDは自動生成されるため不要）",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/main.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "description": "指定されたIDのユーザー詳細を取得",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "ユーザー詳細取得",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ユーザーID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/main.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "指定されたIDのユーザー情報を更新",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "ユーザー更新",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ユーザーID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "更新するユーザー情報",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/main.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/main.ErrorResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "指定されたIDのユーザーを削除",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "ユーザー削除",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ユーザーID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/main.ErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/main.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.ErrorResponse": {
+            "description": "エラーレスポンス",
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string",
+                    "example": "ユーザーが見つかりません"
+                }
+            }
+        },
+        "main.User": {
+            "description": "ユーザー情報",
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer",
+                    "example": 25
+                },
+                "email": {
+                    "type": "string",
+                    "example": "tanaka@example.com"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "田中太郎"
+                }
+            }
+        }
+    }
+}
